@@ -1,0 +1,7 @@
+transformers
+plotly
+dash
+pandas
+numpy
+python-dotenv
+torch
