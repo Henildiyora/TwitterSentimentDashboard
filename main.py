@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 def main():
-    parser = argparse.ArgumentParser(description="Twitter Sentiment Analysis Dashboard")
+    parser = argparse.ArgumentParser(description="Advanced Twitter Sentiment Analysis Dashboard")
     parser.add_argument('--csv-path', default='data/sentiment140.csv', help='Path to Sentiment140 CSV')
     parser.add_argument('--max-tweets', type=int, default=100, help='Maximum tweets to process')
     parser.add_argument('--db-path', help='Path to SQLite database (overrides .env)')

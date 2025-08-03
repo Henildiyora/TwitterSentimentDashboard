@@ -59,13 +59,12 @@ def process_dataset(csv_path='data/sentiment140.csv', max_tweets=100, db_path=No
     try:
         # Load dataset
         logger.info(f"Loading dataset from {csv_path}...")
-        # Sentiment140 columns: 0 (sentiment), 1 (id), 2 (date), 3 (query), 4 (user), 5 (text)
         df = pd.read_csv(csv_path, encoding='latin-1', names=['sentiment', 'id', 'date', 'query', 'user', 'text'])
-        df = df.sample(n=min(max_tweets, len(df)), random_state=42)  # Random sample for testing
+        df = df.sample(n=min(max_tweets, len(df)), random_state=42)
         logger.info(f"Loaded {len(df)} tweets")
 
-        # Initialize sentiment analysis pipeline
-        nlp = pipeline('sentiment-analysis')
+        # Initialize sentiment analysis pipeline with RoBERTa
+        nlp = pipeline('sentiment-analysis', model='cardiffnlp/twitter-roberta-base-sentiment')
         logger.info("Initialized sentiment analysis pipeline")
 
         # Initialize SQLite
@@ -82,7 +81,7 @@ def process_dataset(csv_path='data/sentiment140.csv', max_tweets=100, db_path=No
 
                 # Analyze sentiment
                 result = nlp(cleaned_text)[0]
-                sentiment_label = result['label']
+                sentiment_label = result['label'].replace('LABEL_0', 'NEGATIVE').replace('LABEL_1', 'NEUTRAL').replace('LABEL_2', 'POSITIVE')
                 sentiment_score = result['score']
 
                 # Store in SQLite
@@ -107,7 +106,6 @@ def process_dataset(csv_path='data/sentiment140.csv', max_tweets=100, db_path=No
         conn.close()
         logger.info(f"Processed and stored {len(tweets_data)} tweets")
         return tweets_data
-
     except Exception as e:
         logger.error(f"Dataset processing failed: {str(e)}")
         raise
