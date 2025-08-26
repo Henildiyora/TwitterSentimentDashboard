@@ -40,46 +40,9 @@ This project provides a dashboard for visualizing Twitter sentiment using the Se
    python main.py --csv-path data/sentiment140.csv --max-tweets 100
    ```
    This processes tweets, stores them in SQLite, and launches the dashboard at `http://127.0.0.1:8050`.
-5. **Deploy to Heroku (Optional)**:
-   - Install Heroku CLI and login: `heroku login`
-   - Create a Heroku app: `heroku create`
-   - Add `Procfile`:
-     ```
-     web: python src/app.py
-     ```
-   - Add `gunicorn` to `requirements.txt`:
-     ```
-     gunicorn==20.1.0
-     ```
-   - Push to Heroku:
-     ```bash
-     git init
-     git add .
-     git commit -m "Initial commit"
-     heroku git:remote -a your-app-name
-     git push heroku main
-     ```
-   - Run dataset processing separately: `python src/process_dataset.py --csv-path data/sentiment140.csv --max-tweets 100`
-   - Access dashboard at `https://your-app-name.herokuapp.com`.
-6. **Cleanup**:
-   - Delete `tweets.db` if no longer needed.
-   - For Heroku, pause the app in the Heroku Dashboard to stay within free tier limits (550 hours/month).
 
 ## Technologies
 - **Hugging Face Transformers**: Sentiment analysis.
 - **Plotly Dash**: Web dashboard.
 - **SQLite**: Data storage.
 - **Pandas**: Dataset processing.
-
-## Notes
-- **M1 Compatibility**: All libraries are compatible with macOS M1 (Python 3.8+ recommended).
-- **GitHub**: Push to `HenilDiyora/TwitterSentimentDashboard`:
-  ```bash
-  git init
-  git add .
-  git commit -m "Initial commit for Twitter Sentiment Dashboard"
-  git remote add origin https://github.com/HenilDiyora/TwitterSentimentDashboard.git
-  git push -u origin main
-  ```
-- **Dataset Size**: The Sentiment140 dataset is large (~200 MB). Use `max-tweets` to limit processing for testing.
-- **Heroku Free Tier**: Limited to 550 hours/month. Pause the app when not in use.
